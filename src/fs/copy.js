@@ -1,4 +1,3 @@
-import {rejects} from 'node:assert';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 
@@ -14,7 +13,7 @@ const copy = async () => {
   const toDir = path.join(__dirname, 'src', 'fs', 'files_copy');
 
   async function getFiles(dir) {
-    const dirContent = await fs.readdir(dir, {withFileTypes: true});
+    const dirContent = await fs.readdir(dir, { withFileTypes: true });
 
     const files = await Promise.all(
       dirContent.map((item) => {
@@ -44,14 +43,14 @@ const copy = async () => {
         if (results[0].status === 'fulfilled' && results[1].status === 'rejected') {
 
           fs
-            .mkdir(toDir, {recursive: true})
+            .mkdir(toDir, { recursive: true })
             .then(() => getFiles(fromDir))
             .then((files) => {
               files.forEach((file) => {
                 const copyFullPath = file.replace(`${fromDir}`, `${toDir}`);
 
                 fs
-                  .mkdir(path.parse(copyFullPath).dir, {recursive: true})
+                  .mkdir(path.parse(copyFullPath).dir, { recursive: true })
                   .then(() => fs.copyFile(file, copyFullPath))
                   .catch((err) => console.log(err.message));
               });
