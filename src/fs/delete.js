@@ -16,7 +16,10 @@ const remove = async () => {
       fs.rm(targetFile);
     })
     .catch(() => {
-      console.error('FS operation failed');
+      throw new Error('FS operation failed');
+    })
+    .catch((err) => {
+      console.error(err.message);
     });
 };
 
